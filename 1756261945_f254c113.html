@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中国男篮亚洲杯分析 | 十年沉浮录</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- Framer Motion -->
+  <script src="https://cdn.jsdelivr.net/npm/framer-motion@10.16.4/dist/framer-motion.min.js"></script>
+  
+  <!-- 配置Tailwind自定义颜色和字体 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'tesla-red': '#E31937',
+            'tesla-red-light': '#E3193780',
+            'dark-bg': '#000000',
+            'text-light': '#F5F5F5',
+            'text-muted': '#A0A0A0'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Montserrat', 'sans-serif']
+          },
+        },
+      }
+    }
+  </script>
+  
+  <!-- 自定义工具类 -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-8px);
+      }
+      .gradient-overlay {
+        background: linear-gradient(to right, #E31937 0%, rgba(227,25,55,0) 100%);
+      }
+    }
+  </style>
+  
+  <style>
+    /* 基础样式 */
+    body {
+      background-color: #000000;
+      color: #F5F5F5;
+      overflow-x: hidden;
+    }
+    
+    /* 自定义滚动条 */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #000000;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #E31937;
+      border-radius: 3px;
+    }
+    
+    /* 数字动画效果 */
+    .counter {
+      counter-reset: count 0;
+      animation: countUp 2s forwards;
+    }
+    @keyframes countUp {
+      to { counter-increment: count var(--target); content: counter(count); }
+    }
+    
+    /* 加载动画 */
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid #E31937;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+    @keyframes rotation {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* 背景动画 */
+    .bg-pattern {
+      background-image: radial-gradient(#E31937 1px, transparent 1px);
+      background-size: 30px 30px;
+      opacity: 0.1;
+    }
+  </style>
+</head>
+<body class="font-sans">
+  <!-- 导航栏 -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-dark-bg/80 backdrop-blur-md border-b border-tesla-red/30">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 bg-tesla-red rounded-full flex items-center justify-center">
+          <i class="fa fa-basketball-ball text-white"></i>
+        </div>
+        <h1 class="text-xl font-bold text-white">男篮分析</h1>
+      </div>
+      <nav class="hidden md:flex space-x-8">
+        <a href="#overview" class="text-text-light hover:text-tesla-red transition-colors">概览</a>
+        <a href="#analysis" class="text-text-light hover:text-tesla-red transition-colors">内容分析</a>
+        <a href="#comments" class="text-text-light hover:text-tesla-red transition-colors">评论分析</a>
+        <a href="#suggestions" class="text-text-light hover:text-tesla-red transition-colors">运营建议</a>
+      </nav>
+      <button class="md:hidden text-text-light text-xl">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+  </header>
+  
+  <!-- 英雄区 -->
+  <section class="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
+    <div class="absolute inset-0 bg-pattern" style="animation: float 20s linear infinite;"></div>
+    <div class="container mx-auto px-4 z-10">
+      <div class="flex flex-col items-center text-center">
+        <div class="w-16 h-1 bg-tesla-red mb-6 animate-fadeIn"></div>
+        <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold leading-tight text-shadow mb-6 animate-slideUp">
+          <span class="text-tesla-red">中国男篮</span>
+          <span class="block md:inline">十年</span>
+          <span class="text-tesla-red">沉浮录</span>
+        </h1>
+        <p class="text-[clamp(1.2rem,3vw,1.8rem)] text-text-light/90 max-w-3xl mb-10 animate-slideUp animation-delay-300">
+          时隔十年再进亚洲杯四强！曾经的亚洲霸主为何沉沦十年？
+        </p>
+        <div class="flex flex-wrap justify-center gap-6 mb-16 animate-slideUp animation-delay-500">
+          <div class="flex items-center space-x-2 bg-dark-bg/50 backdrop-blur-sm px-6 py-3 rounded-full border border-tesla-red/30">
+            <i class="fa fa-calendar text-tesla-red"></i>
+            <span>2013-2023</span>
+          </div>
+          <div class="flex items-center space-x-2 bg-dark-bg/50 backdrop-blur-sm px-6 py-3 rounded-full border border-tesla-red/30">
+            <i class="fa fa-map-marker text-tesla-red"></i>
+            <span>亚洲篮球分析</span>
+          </div>
+          <div class="flex items-center space-x-2 bg-dark-bg/50 backdrop-blur-sm px-6 py-3 rounded-full border border-tesla-red/30">
+            <i class="fa fa-bar-chart text-tesla-red"></i>
+            <span>数据解析</span>
+          </div>
+        </div>
+        <div class="animate-bounce">
+          <a href="#overview" class="text-text-light/70 hover:text-tesla-red transition-colors">
+            <i class="fa fa-angle-down text-2xl"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- 概览数据区 -->
+  <section id="overview" class="py-20 bg-dark-bg relative">
+    <div class="container mx-auto px-4">
+      <div class="mb-16 text-center">
+        <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mb-4">赛事数据<span class="text-tesla-red">概览</span></h2>
+        <p class="text-text-muted max-w-2xl mx-auto">十年间中国男篮的亚洲赛场表现对比，数据揭示兴衰轨迹</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- 数据卡片1 -->
+        <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl p-8 card-hover">
+          <div class="text-tesla-red text-3xl mb-4">
+            <i class="fa fa-trophy"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">2013年亚锦赛</h3>
+          <p class="text-text-muted mb-6">八强赛被伊朗淘汰</p>
+          <div class="flex items-end">
+            <span class="text-4xl font-bold text-white">16</span>
+            <span class="text-text-muted ml-2 mb-1">亚洲排名</span>
+          </div>
+        </div>
+        
+        <!-- 数据卡片2 -->
+        <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl p-8 card-hover">
+          <div class="text-tesla-red text-3xl mb-4">
+            <i class="fa fa-trophy"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">2015年亚锦赛</h3>
+          <p class="text-text-muted mb-6">冠军（长沙）</p>
+          <div class="flex items-end">
+            <span class="text-4xl font-bold text-white">1</span>
+            <span class="text-text-muted ml-2 mb-1">亚洲排名</span>
+          </div>
+        </div>
+        
+        <!-- 数据卡片3 -->
+        <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl p-8 card-hover">
+          <div class="text-tesla-red text-3xl mb-4">
+            <i class="fa fa-trophy"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">2023年亚锦赛</h3>
+          <p class="text-text-muted mb-6">四强（首次晋级）</p>
+          <div class="flex items-end">
+            <span class="text-4xl font-bold text-white">3</span>
+            <span class="text-text-muted ml-2 mb-1">亚洲排名</span>
+          </div>
+        </div>
+        
+        <!-- 数据卡片4 -->
+        <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl p-8 card-hover">
+          <div class="text-tesla-red text-3xl mb-4">
+            <i class="fa fa-clock-o"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">十年跨度</h3>
+          <p class="text-text-muted mb-6">从低谷到重返四强</p>
+          <div class="flex items-end">
+            <span class="text-4xl font-bold text-white">10</span>
+            <span class="text-text-muted ml-2 mb-1">年周期</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 关键数据对比 -->
+      <div class="mt-20 grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl p-8">
+          <h3 class="text-2xl font-bold mb-6 flex items-center">
+            <span class="w-3 h-3 bg-tesla-red rounded-full mr-3"></span>
+            十年得分对比
+          </h3>
+          <div class="h-64">
+            <canvas id="scoreChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl p-8">
+          <h3 class="text-2xl font-bold mb-6 flex items-center">
+            <span class="w-3 h-3 bg-tesla-red rounded-full mr-3"></span>
+            青训体系评估
+          </h3>
+          <div class="space-y-6">
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-text-light">U18亚洲赛成绩</span>
+                <span class="text-tesla-red">65%</span>
+              </div>
+              <div class="w-full bg-dark-bg/70 rounded-full h-2">
+                <div class="bg-tesla-red h-2 rounded-full" style="width: 65%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-text-light">CBA年轻球员使用率</span>
+                <span class="text-tesla-red">48%</span>
+              </div>
+              <div class="w-full bg-dark-bg/70 rounded-full h-2">
+                <div class="bg-tesla-red h-2 rounded-full" style="width: 48%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-text-light">国际比赛经验</span>
+                <span class="text-tesla-red">32%</span>
+              </div>
+              <div class="w-full bg-dark-bg/70 rounded-full h-2">
+                <div class="bg-tesla-red h-2 rounded-full" style="width: 32%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-text-light">青训投入占比</span>
+                <span class="text-tesla-red">25%</span>
+              </div>
+              <div class="w-full bg-dark-bg/70 rounded-full h-2">
+                <div class="bg-tesla-red h-2 rounded-full" style="width: 25%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- 内容分析区 -->
+  <section id="analysis" class="py-20 bg-gradient-to-b from-dark-bg to-dark-bg/95 relative">
+    <div class="container mx-auto px-4">
+      <div class="mb-16 text-center">
+        <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mb-4">内容<span class="text-tesla-red">分析</span></h2>
+        <p class="text-text-muted max-w-2xl mx-auto">深度解析视频内容结构与用户吸引力</p>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- 左侧：钩子文案分析 -->
+        <div class="lg:col-span-1 bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl p-8">
+          <h3 class="text-2xl font-bold mb-6 flex items-center">
+            <span class="text-tesla-red mr-2"><i class="fa fa-lightbulb-o"></i></span>
+            内容钩子解析
+          </h3>
+          <div class="space-y-6">
+            <div class="p-4 bg-dark-bg/70 rounded-xl border-l-4 border-tesla-red">
+              <h4 class="font-bold text-lg mb-2">十年时间跨度</h4>
+              <p class="text-text-muted">通过"十年"这一情感化时间维度，建立历史与现状的对比，引发观众共鸣。</p>
+            </div>
+            <div class="p-4 bg-dark-bg/70 rounded-xl border-l-4 border-tesla-red">
+              <h4 class="font-bold text-lg mb-2">"亚洲霸主"反差</h4>
+              <p class="text-text-muted">利用辉煌历史与当前困境的强烈对比，激发观众对"为何沉沦"的好奇心。</p>
+            </div>
+            <div class="p-4 bg-dark-bg/70 rounded-xl border-l-4 border-tesla-red">
+              <h4 class="font-bold text-lg mb-2">开放式提问</h4>
+              <p class="text-text-muted">"这届年轻的中国男篮能创造奇迹吗？"结尾提问，直接引导观众评论互动。</p>
+            </div>
+          </div>
+          
+          <div class="mt-10 pt-6 border-t border-white/10">
+            <h3 class="text-2xl font-bold mb-6 flex items-center">
+              <span class="text-tesla-red mr-2"><i class="fa fa-users"></i></span>
+              用户画像预测
+            </h3>
+            <div class="space-y-4">
+              <div class="flex items-start">
+                <div class="w-8 h-8 rounded-full bg-tesla-red/20 flex items-center justify-center text-tesla-red mr-3 flex-shrink-0 mt-1">1</div>
+                <div>
+                  <h4 class="font-bold">老球迷 (高意向)</h4>
+                  <p class="text-text-muted text-sm">回忆2015年夺冠细节，提及易建联/周琦等球员表现</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="w-8 h-8 rounded-full bg-tesla-red/20 flex items-center justify-center text-tesla-red mr-3 flex-shrink-0 mt-1">2</div>
+                <div>
+                  <h4 class="font-bold">篮球分析师 (中高意向)</h4>
+                  <p class="text-text-muted text-sm">对比两届阵容差异，讨论青训体系问题</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="w-8 h-8 rounded-full bg-tesla-red/20 flex items-center justify-center text-tesla-red mr-3 flex-shrink-0 mt-1">3</div>
+                <div>
+                  <h4 class="font-bold">年轻观众 (潜在转化)</h4>
+                  <p class="text-text-muted text-sm">询问历史赛事细节，表现出对男篮历史的兴趣</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 右侧：Bento Grid内容卡片 -->
+        <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- 卡片1 -->
+          <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl overflow-hidden card-hover transform transition-all duration-500 hover:shadow-[0_0_30px_rgba(227,25,55,0.2)]">
+            <div class="h-40 overflow-hidden relative">
+              <img src="https://picsum.photos/id/1071/800/600" alt="中国男篮比赛瞬间" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+              <div class="absolute top-4 right-4 bg-tesla-red text-white text-xs font-bold px-3 py-1 rounded-full">
+                历史对比
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-3">十年前后表现对比</h3>
+              <p class="text-text-muted text-sm mb-4">通过2013年、2015年和2023年三次亚锦赛表现的对比，展现中国男篮十年间的起伏变化，分析关键转折点。</p>
+              <div class="flex justify-between items-center">
+                <span class="text-tesla-red text-sm"><i class="fa fa-clock-o mr-1"></i> 8:45</span>
+                <span class="text-text-muted text-sm">历史数据</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 卡片2 -->
+          <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl overflow-hidden card-hover transform transition-all duration-500 hover:shadow-[0_0_30px_rgba(227,25,55,0.2)]">
+            <div class="h-40 overflow-hidden relative">
+              <img src="https://picsum.photos/id/1060/800/600" alt="青训体系讨论" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+              <div class="absolute top-4 right-4 bg-tesla-red text-white text-xs font-bold px-3 py-1 rounded-full">
+                深度解析
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-3">青训体系断层分析</h3>
+              <p class="text-text-muted text-sm mb-4">深入探讨中国男篮青训体系存在的问题，包括人才培养、联赛强度、国际交流等方面的现状与改进建议。</p>
+              <div class="flex justify-between items-center">
+                <span class="text-tesla-red text-sm"><i class="fa fa-clock-o mr-1"></i> 12:30</span>
+                <span class="text-text-muted text-sm">战术分析</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 卡片3 -->
+          <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl overflow-hidden card-hover transform transition-all duration-500 hover:shadow-[0_0_30px_rgba(227,25,55,0.2)]">
+            <div class="h-40 overflow-hidden relative">
+              <img src="https://picsum.photos/id/1076/800/600" alt="球员对比" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+              <div class="absolute top-4 right-4 bg-tesla-red text-white text-xs font-bold px-3 py-1 rounded-full">
+                人物聚焦
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-3">新旧核心球员对比</h3>
+              <p class="text-text-muted text-sm mb-4">分析易建联、周琦等老将与王哲林、张镇麟等年轻球员的能力差异，探讨新一代核心的培养路径与挑战。</p>
+              <div class="flex justify-between items-center">
+                <span class="text-tesla-red text-sm"><i class="fa fa-clock-o mr-1"></i> 10:15</span>
+                <span class="text-text-muted text-sm">球员分析</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 卡片4 -->
+          <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl overflow-hidden card-hover transform transition-all duration-500 hover:shadow-[0_0_30px_rgba(227,25,55,0.2)]">
+            <div class="h-40 overflow-hidden relative">
+              <img src="https://picsum.photos/id/1074/800/600" alt="未来展望" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+              <div class="absolute top-4 right-4 bg-tesla-red text-white text-xs font-bold px-3 py-1 rounded-full">
+                未来展望
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-3">亚洲杯四强之路展望</h3>
+              <p class="text-text-muted text-sm mb-4">结合当前阵容分析中国男篮在本届亚洲杯的晋级前景，关键比赛预测，以及未来巴黎奥运会的潜在挑战。</p>
+              <div class="flex justify-between items-center">
+                <span class="text-tesla-red text-sm"><i class="fa fa-clock-o mr-1"></i> 9:20</span>
+                <span class="text-text-muted text-sm">赛事预测</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- 评论分析区 -->
+  <section id="comments" class="py-20 bg-dark-bg relative">
+    <div class="container mx-auto px-4">
+      <div class="mb-16 text-center">
+        <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mb-4">评论<span class="text-tesla-red">分析</span></h2>
+        <p class="text-text-muted max-w-2xl mx-auto">基于评论数据的用户互动趋势与需求洞察</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        <!-- 左侧：情感倾向 -->
+        <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl p-8">
+          <h3 class="text-2xl font-bold mb-6">情感倾向分析</h3>
+          <div class="flex flex-col md:flex-row gap-6">
+            <div class="flex-1 text-center">
+              <div class="w-32 h-32 rounded-full bg-tesla-red/20 flex items-center justify-center mx-auto mb-4">
+                <span class="text-4xl font-bold text-tesla-red">68%</span>
+              </div>
+              <h4 class="font-bold text-xl mb-1">正向期待</h4>
+              <p class="text-text-muted">主要承载词："浴火重生"、"新星崛起"</p>
+            </div>
+            <div class="flex-1 text-center">
+              <div class="w-32 h-32 rounded-full bg-text-muted/20 flex items-center justify-center mx-auto mb-4">
+                <span class="text-4xl font-bold text-text-muted">32%</span>
+              </div>
+              <h4 class="font-bold text-xl mb-1">负面担忧</h4>
+              <p class="text-text-muted">聚焦词："青黄不接"、"体制僵化"</p>
+            </div>
+          </div>
+          
+          <div class="mt-8 pt-6 border-t border-white/10">
+            <h3 class="text-xl font-bold mb-4">核心需求关键词</h3>
+            <div class="flex flex-wrap gap-3">
+              <span class="px-4 py-2 bg-tesla-red/20 text-tesla-red rounded-full text-sm">青训断层 <span class="text-muted text-xs">(35%)</span></span>
+              <span class="px-4 py-2 bg-dark-bg/70 text-text-light rounded-full text-sm">归化球员 <span class="text-muted text-xs">(28%)</span></span>
+              <span class="px-4 py-2 bg-dark-bg/70 text-text-light rounded-full text-sm">CBA联赛强度 <span class="text-muted text-xs">(22%)</span></span>
+              <span class="px-4 py-2 bg-dark-bg/70 text-text-light rounded-full text-sm">00后球员抗压能力 <span class="text-muted text-xs">(15%)</span></span>
+              <span class="px-4 py-2 bg-dark-bg/70 text-text-light rounded-full text-sm">战术体系 <span class="text-muted text-xs">(10%)</span></span>
+              <span class="px-4 py-2 bg-dark-bg/70 text-text-light rounded-full text-sm">姚明改革 <span class="text-muted text-xs">(8%)</span></span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 右侧：高频关键词 -->
+        <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl p-8">
+          <h3 class="text-2xl font-bold mb-6">高频讨论关键词</h3>
+          <div class="space-y-6">
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-text-light">黄金一代</span>
+                <span class="text-tesla-red">12.5%</span>
+              </div>
+              <div class="w-full bg-dark-bg/70 rounded-full h-2">
+                <div class="bg-tesla-red h-2 rounded-full" style="width: 12.5%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-text-light">周琦腰伤</span>
+                <span class="text-tesla-red">10.8%</span>
+              </div>
+              <div class="w-full bg-dark-bg/70 rounded-full h-2">
+                <div class="bg-tesla-red h-2 rounded-full" style="width: 10.8%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-text-light">姚明改革</span>
+                <span class="text-tesla-red">9.3%</span>
+              </div>
+              <div class="w-full bg-dark-bg/70 rounded-full h-2">
+                <div class="bg-tesla-red h-2 rounded-full" style="width: 9.3%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-text-light">八村垒对比</span>
+                <span class="text-tesla-red">8.7%</span>
+              </div>
+              <div class="w-full bg-dark-bg/70 rounded-full h-2">
+                <div class="bg-tesla-red h-2 rounded-full" style="width: 8.7%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-text-light">菲律宾归化</span>
+                <span class="text-tesla-red">7.2%</span>
+              </div>
+              <div class="w-full bg-dark-bg/70 rounded-full h-2">
+                <div class="bg-tesla-red h-2 rounded-full" style="width: 7.2%"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8 pt-6 border-t border-white/10">
+            <h3 class="text-xl font-bold mb-4">黄金互动时段</h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-dark-bg/70 p-4 rounded-xl text-center">
+                <div class="text-2xl font-bold text-tesla-red mb-1">19:00-23:00</div>
+                <p class="text-text-muted text-sm">赛后讨论高峰期</p>
+              </div>
+              <div class="bg-dark-bg/70 p-4 rounded-xl text-center">
+                <div class="text-2xl font-bold text-tesla-red mb-1">12:00-14:00</div>
+                <p class="text-text-muted text-sm">午间体育资讯消费时段</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 评论模拟展示 -->
+      <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl p-8">
+        <h3 class="text-2xl font-bold mb-6">热门评论模拟</h3>
+        <div class="space-y-6 max-h-96 overflow-y-auto pr-2">
+          <div class="flex gap-4 pb-6 border-b border-white/10">
+            <div class="w-10 h-10 rounded-full bg-tesla-red/20 flex items-center justify-center text-tesla-red flex-shrink-0">
+              <i class="fa fa-user"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex justify-between mb-1">
+                <span class="font-bold">老球迷老王</span>
+                <span class="text-text-muted text-sm">2小时前</span>
+              </div>
+              <p class="text-text-light mb-2">15年长沙亚锦赛的易建联和周琦和现在完全不一样了，现在的年轻球员需要更多大赛经验。</p>
+              <div class="flex items-center text-text-muted text-sm">
+                <button class="flex items-center hover:text-tesla-red transition-colors mr-6">
+                  <i class="fa fa-thumbs-up mr-1"></i> 128
+                </button>
+                <button class="flex items-center hover:text-tesla-red transition-colors">
+                  <i class="fa fa-comment-o mr-1"></i> 32
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex gap-4 pb-6 border-b border-white/10">
+            <div class="w-10 h-10 rounded-full bg-tesla-red/20 flex items-center justify-center text-tesla-red flex-shrink-0">
+              <i class="fa fa-user"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex justify-between mb-1">
+                <span class="font-bold">篮球战术师</span>
+                <span class="text-text-muted text-sm">3小时前</span>
+              </div>
+              <p class="text-text-light mb-2">青训断层确实是大问题，U18成绩下滑明显，建议增加国际交流机会，CBA联赛强度需要提高。</p>
+              <div class="flex items-center text-text-muted text-sm">
+                <button class="flex items-center hover:text-tesla-red transition-colors mr-6">
+                  <i class="fa fa-thumbs-up mr-1"></i> 96
+                </button>
+                <button class="flex items-center hover:text-tesla-red transition-colors">
+                  <i class="fa fa-comment-o mr-1"></i> 24
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex gap-4 pb-6 border-b border-white/10">
+            <div class="w-10 h-10 rounded-full bg-tesla-red/20 flex items-center justify-center text-tesla-red flex-shrink-0">
+              <i class="fa fa-user"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex justify-between mb-1">
+                <span class="font-bold">00后篮球迷</span>
+                <span class="text-text-muted text-sm">5小时前</span>
+              </div>
+              <p class="text-text-light mb-2">第一次了解到中国男篮还有黄金一代，谁能介绍一下2015年的阵容啊？周琦当时多大？</p>
+              <div class="flex items-center text-text-muted text-sm">
+                <button class="flex items-center hover:text-tesla-red transition-colors mr-6">
+                  <i class="fa fa-thumbs-up mr-1"></i> 78
+                </button>
+                <button class="flex items-center hover:text-tesla-red transition-colors">
+                  <i class="fa fa-comment-o mr-1"></i> 18
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex gap-4 pb-6 border-b border-white/10">
+            <div class="w-10 h-10 rounded-full bg-tesla-red/20 flex items-center justify-center text-tesla-red flex-shrink-0">
+              <i class="fa fa-user"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex justify-between mb-1">
+                <span class="font-bold">体育评论员</span>
+                <span class="text-text-muted text-sm">昨天</span>
+              </div>
+              <p class="text-text-light mb-2">归化球员政策值得讨论，现在国际比赛对抗越来越激烈，单靠本土球员可能不够，需要灵活运用归化。</p>
+              <div class="flex items-center text-text-muted text-sm">
+                <button class="flex items-center hover:text-tesla-red transition-colors mr-6">
+                  <i class="fa fa-thumbs-up mr-1"></i> 64
+                </button>
+                <button class="flex items-center hover:text-tesla-red transition-colors">
+                  <i class="fa fa-comment-o mr-1"></i> 42
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex gap-4">
+            <div class="w-10 h-10 rounded-full bg-tesla-red/20 flex items-center justify-center text-tesla-red flex-shrink-0">
+              <i class="fa fa-user"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex justify-between mb-1">
+                <span class="font-bold">篮球战术迷</span>
+                <span class="text-text-muted text-sm">昨天</span>
+              </div>
+              <p class="text-text-light mb-2">对比日本和菲律宾的归化策略，中国男篮需要更清晰的规划，而不是临时抱佛脚。</p>
+              <div class="flex items-center text-text-muted text-sm">
+                <button class="flex items-center hover:text-tesla-red transition-colors mr-6">
+                  <i class="fa fa-thumbs-up mr-1"></i> 52
+                </button>
+                <button class="flex items-center hover:text-tesla-red transition-colors">
+                  <i class="fa fa-comment-o mr-1"></i> 28
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- 运营建议区 -->
+  <section id="suggestions" class="py-20 bg-gradient-to-b from-dark-bg/95 to-dark-bg relative">
+    <div class="container mx-auto px-4">
+      <div class="mb-16 text-center">
+        <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mb-4">运营<span class="text-tesla-red">建议</span></h2>
+        <p class="text-text-muted max-w-2xl mx-auto">冷启动期突破策略与长期运营规划</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- 建议1 -->
+        <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl p-8 relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-40 h-40 gradient-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="relative z-10">
+            <div class="w-12 h-12 rounded-full bg-tesla-red/20 flex items-center justify-center text-tesla-red mb-6">
+              <i class="fa fa-play-circle text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">激活冷启动</h3>
+            <p class="text-text-muted mb-6">在19:00黄金时段投放「男篮历史十佳球」混剪视频激活讨论，配合评论区置顶"预测四强比分抽球衣"互动机制突破零评论状态。</p>
+            <div class="flex items-center text-tesla-red font-medium">
+              <span>立即执行</span>
+              <i class="fa fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 建议2 -->
+        <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl p-8 relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-40 h-40 gradient-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="relative z-10">
+            <div class="w-12 h-12 rounded-full bg-tesla-red/20 flex items-center justify-center text-tesla-red mb-6">
+              <i class="fa fa-lightbulb-o text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">争议话题引导</h3>
+            <p class="text-text-muted mb-6">重点引导讨论"青训体系改革"和"归化球员政策"等争议性话题，进一步刺激互动量，吸引战术分析型用户参与。</p>
+            <div class="flex items-center text-tesla-red font-medium">
+              <span>持续优化</span>
+              <i class="fa fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 建议3 -->
+        <div class="bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/20 rounded-2xl p-8 relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-40 h-40 gradient-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="relative z-10">
+            <div class="w-12 h-12 rounded-full bg-tesla-red/20 flex items-center justify-center text-tesla-red mb-6">
+              <i class="fa fa-file-text-o text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">二次传播素材</h3>
+            <p class="text-text-muted mb-6">准备"青训体系深度解析"长图文作为二次传播素材，在评论区置顶引导用户分享转发，扩大内容影响力。</p>
+            <div class="flex items-center text-tesla-red font-medium">
+              <span>长期规划</span>
+              <i class="fa fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 总结卡片 -->
+      <div class="mt-20 bg-dark-bg/50 backdrop-blur-sm border border-tesla-red/30 rounded-2xl p-8 md:p-12 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(227,25,55,0.15),transparent_60%)]"></div>
+        <div class="relative z-10">
+          <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/3 text-center md:text-left mb-8 md:mb-0 md:pr-8">
+              <h3 class="text-2xl md:text-3xl font-bold mb-4">中国男篮的<span class="text-tesla-red">未来之路</span></h3>
+              <p class="text-text-muted">从十年沉浮到重返亚洲四强，中国男篮正在经历新老交替，青训体系改革迫在眉睫。</p>
+            </div>
+            <div class="md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="bg-dark-bg/70 p-6 rounded-xl">
+                <div class="text-tesla-red text-2xl mb-3">
+                  <i class="fa fa-line-chart"></i>
+                </div>
+                <h4 class="font-bold text-lg mb-2">数据驱动</h4>
+                <p class="text-text-muted text-sm">基于用户评论和赛事数据，精准把握观众兴趣点</p>
+              </div>
+              <div class="bg-dark-bg/70 p-6 rounded-xl">
+                <div class="text-tesla-red text-2xl mb-3">
+                  <i class="fa fa-users"></i>
+                </div>
+                <h4 class="font-bold text-lg mb-2">用户互动</h4>
+                <p class="text-text-muted text-sm">通过争议话题和预测活动，激发用户参与热情</p>
+              </div>
+              <div class="bg-dark-bg/70 p-6 rounded-xl">
+                <div class="text-tesla-red text-2xl mb-3">
+                  <i class="fa fa-history"></i>
+                </div>
+                <h4 class="font-bold text-lg mb-2">历史情怀</h4>
+                <p class="text-text-muted text-sm">结合辉煌历史与现状对比，唤起观众情感共鸣</p>
+              </div>
+              <div class="bg-dark-bg/70 p-6 rounded-xl">
+                <div class="text-tesla-red text-2xl mb-3">
+                  <i class="fa fa-lightbulb-o"></i>
+                </div>
+                <h4 class="font-bold text-lg mb-2">内容创新</h4>
+                <p class="text-text-muted text-sm">通过深度分析与数据可视化，提供专业有价值内容</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- 页脚 -->
+  <footer class="py-10 bg-dark-bg border-t border-white/10">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center space-x-2 mb-6 md:mb-0">
+          <div class="w-8 h-8 bg-tesla-red rounded-full flex items-center justify-center">
+            <i class="fa fa-basketball-ball text-white"></i>
+          </div>
+          <h2 class="text-xl font-bold text-white">男篮分析</h2>
+        </div>
+        <div class="text-text-muted text-sm">
+          © 2023 男篮分析专题 | 数据来源：公开赛事数据与用户评论分析
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- 返回顶部按钮 -->
+  <button id="backToTop" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-tesla-red text-white flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-tesla-red/80">
+    <i class="fa fa-arrow-up"></i>
+  </button>
+  
+  <!-- 引入Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  
+  <script>
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function() {
+      // 平滑滚动
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+      
+      // 返回顶部按钮
+      const backToTopButton = document.getElementById('backToTop');
+      window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+          backToTopButton.classList.remove('opacity-0', 'invisible');
+          backToTopButton.classList.add('opacity-100', 'visible');
+        } else {
+          backToTopButton.classList.remove('opacity-100', 'visible');
+          backToTopButton.classList.add('opacity-0', 'invisible');
+        }
+      });
+      
+      backToTopButton.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+      
+      // 滚动动画
+      const animateOnScroll = function() {
+        const elements = document.querySelectorAll('.card-hover, h2, h3, p, .grid > div');
+        
+        elements.forEach(element => {
+          const elementPosition = element.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          
+          if (elementPosition < windowHeight - 100) {
+            element.classList.add('animate-fadeIn');
+          }
+        });
+      };
+      
+      // 初始检查
+      animateOnScroll();
+      
+      // 滚动时检查
+      window.addEventListener('scroll', animateOnScroll);
+      
+      // 得分对比图表
+      const ctx = document.getElementById('scoreChart').getContext('2d');
+      const scoreChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['2013', '2015', '2017', '2019', '2021', '2023'],
+          datasets: [{
+            label: '场均得分',
+            data: [72, 88, 75, 78, 81, 85],
+            borderColor: '#E31937',
+            backgroundColor: 'rgba(227, 25, 55, 0.1)',
+            tension: 0.4,
+            fill: true
+          }, {
+            label: '亚洲平均得分',
+            data: [70, 73, 76, 79, 82, 84],
+            borderColor: '#A0A0A0',
+            backgroundColor: 'transparent',
+            tension: 0.4,
+            borderDash: [5, 5]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: false,
+              min: 60,
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              ticks: {
+                color: '#A0A0A0'
+              }
+            },
+            x: {
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              ticks: {
+                color: '#A0A0A0'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: '#F5F5F5'
+              }
+            }
+          }
+        }
+      });
+      
+      // 添加浮动背景动画
+      const pattern = document.querySelector('.bg-pattern');
+      pattern.style.animation = 'float 20s linear infinite';
+    });
+  </script>
+</body>
+</html>
